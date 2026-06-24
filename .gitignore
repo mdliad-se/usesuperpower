@@ -1,0 +1,15 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Gemini / Antigravity metadata & logs
+.gemini/
+.system_generated/
+walkthrough.md
+implementation_plan.md
+task.md
+
+# Local environment files
+.env
+.env.local
+.env.*.local

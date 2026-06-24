@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>usesuperpower — AI Development Methodology That Runs Itself</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:          #FFFFFF;
+  --bg-2:        #F9F9F8;
+  --bg-3:        #F2F1EE;
+  --bg-4:        #ECEAE6;
+  --border:      #E8E7E4;
+  --border-md:   #D5D3CE;
+  --text-1:      #1A1A19;
+  --text-2:      #4A4A48;
+  --text-3:      #8A8A87;
+  --text-4:      #B0AFAC;
+  --accent:      #CC785C;
+  --accent-lt:   #F5EDE9;
+  --accent-md:   #E8C4B5;
+  --accent-dark: #A85A42;
+  --red-lt:      #FEF2F0;
+  --red:         #D95C3E;
+  --green-lt:    #F0F7F3;
+  --green:       #2E7D52;
+  --yellow-lt:   #FEFBF0;
+  --yellow:      #B57D12;
+  --font-d:      'Space Grotesk', sans-serif;
+  --font-b:      'Inter', sans-serif;
+  --font-m:      'JetBrains Mono', monospace;
+  --r-sm:        6px;
+  --r-md:        10px;
+  --r-lg:        14px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: var(--font-b);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 58px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--font-d);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-1);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+.nav-logo .dot {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+.nav-links {
+  display: flex;
+  gap: 0.2rem;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--text-2);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: var(--r-sm);
+  transition: background 0.15s, color 0.15s;
+}
+.nav-links a:hover { background: var(--bg-3); color: var(--text-1); }
+.nav-cta {
+  background: var(--accent) !important;
+  color: #fff !important;
+  border-radius: var(--r-sm) !important;
+}
+.nav-cta:hover { background: var(--accent-dark) !important; }
+
+/* ── LAYOUT ── */
+.container { max-width: 1080px; margin: 0 auto; padding: 0 2rem; }
+section { padding: 6rem 0; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 9rem 2rem 5rem;
+  background: var(--bg);
+  position: relative;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--border);
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-m);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--accent);
+  background: var(--accent-lt);
+  border: 1px solid var(--accent-md);
+  padding: 5px 14px;
+  border-radius: 100px;
+  margin-bottom: 2rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.eyebrow-dot {
+  width: 5px; height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: blink 2s infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+h1 {
+  font-family: var(--font-d);
+  font-size: clamp(2.6rem, 6.5vw, 5rem);
+  font-weight: 700;
+  color: var(--text-1);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  max-width: 860px;
+  margin-bottom: 1.5rem;
+}
+h1 em { font-style: normal; color: var(--accent); }
+.hero-sub {
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  color: var(--text-2);
+  max-width: 520px;
+  line-height: 1.75;
+  margin-bottom: 2.5rem;
+  font-weight: 400;
+}
+.hero-actions {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 4rem;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-d);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 12px 26px;
+  border-radius: var(--r-md);
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  letter-spacing: -0.01em;
+}
+.btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
+.btn-secondary {
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: var(--font-d);
+  font-weight: 500;
+  font-size: 14px;
+  padding: 12px 26px;
+  border-radius: var(--r-md);
+  text-decoration: none;
+  border: 1px solid var(--border-md);
+  transition: border-color 0.2s, background 0.2s;
+  letter-spacing: -0.01em;
+}
+.btn-secondary:hover { border-color: var(--text-3); background: var(--bg-2); }
+.hero-stats {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--bg-2);
+}
+.stat {
+  padding: 1.4rem 2.2rem;
+  text-align: center;
+  border-right: 1px solid var(--border);
+  flex: 1;
+}
+.stat:last-child { border-right: none; }
+.stat-num {
+  font-family: var(--font-d);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-1);
+  letter-spacing: -0.04em;
+  display: block;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-family: var(--font-m);
+}
+
+/* ── SECTION HEADER ── */
+.sec-label {
+  font-family: var(--font-m);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+h2 {
+  font-family: var(--font-d);
+  font-size: clamp(1.7rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  color: var(--text-1);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 0.75rem;
+}
+h2 em { font-style: normal; color: var(--accent); }
+.sec-intro {
+  font-size: 1rem;
+  color: var(--text-2);
+  max-width: 520px;
+  line-height: 1.8;
+  margin-bottom: 3.5rem;
+  font-weight: 400;
+}
+h3 {
+  font-family: var(--font-d);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-1);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.4rem;
+}
+
+/* ── DIVIDER ── */
+hr { border: none; border-top: 1px solid var(--border); }
+
+/* ── WHAT GRID ── */
+.what-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.what-cell {
+  background: var(--bg);
+  padding: 2.2rem 2.4rem;
+  transition: background 0.2s;
+}
+.what-cell:hover { background: var(--bg-2); }
+.cell-icon {
+  width: 38px; height: 38px;
+  background: var(--accent-lt);
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  margin-bottom: 1.1rem;
+}
+.what-cell p { font-size: 0.9rem; color: var(--text-2); line-height: 1.75; }
+
+/* ── PROBLEMS ── */
+.prob-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+.prob-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 2rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+.prob-card:hover {
+  border-color: var(--border-md);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+}
+.prob-tag {
+  display: inline-block;
+  font-family: var(--font-m);
+  font-size: 10px;
+  color: var(--red);
+  background: var(--red-lt);
+  border: 1px solid #F9C8BE;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 0.9rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.prob-card p { font-size: 0.88rem; color: var(--text-2); line-height: 1.75; }
+.fix-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-m);
+  font-size: 10px;
+  color: var(--green);
+  background: var(--green-lt);
+  border: 1px solid #B8DCCA;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-top: 1rem;
+  letter-spacing: 0.05em;
+}
+
+/* ── FLOW SECTION ── */
+.flow-wrap {
+  background: var(--bg-2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 6rem 0;
+}
+.flow-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3.5rem;
+}
+.flow-node {
+  background: var(--bg);
+  border: 1px solid var(--border-md);
+  border-radius: var(--r-md);
+  padding: 1.1rem 1.6rem;
+  text-align: center;
+  min-width: 200px;
+  max-width: 240px;
+  flex-shrink: 0;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s, box-shadow 0.2s;
+}
+.flow-node.visible { opacity: 1; transform: translateY(0); }
+.flow-node:hover { border-color: var(--accent); box-shadow: 0 2px 12px rgba(204,120,92,0.12); }
+.flow-node.you {
+  background: var(--accent-lt);
+  border-color: var(--accent-md);
+}
+.flow-node.you:hover { border-color: var(--accent); }
+.fn-phase {
+  font-family: var(--font-m);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 3px;
+  font-weight: 500;
+}
+.flow-node.you .fn-phase { color: var(--accent); }
+.fn-title {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-1);
+  letter-spacing: -0.01em;
+}
+.fn-sub {
+  font-size: 11px;
+  color: var(--text-3);
+  margin-top: 3px;
+  line-height: 1.4;
+}
+.flow-arrow-v {
+  width: 1px;
+  height: 32px;
+  background: var(--border-md);
+  position: relative;
+  flex-shrink: 0;
+}
+.flow-arrow-v::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 50%;
+  transform: translateX(-50%);
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--border-md);
+}
+/* sub loop */
+.sub-loop {
+  border: 1.5px dashed var(--border-md);
+  border-radius: var(--r-lg);
+  padding: 1.5rem 1.5rem;
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  background: var(--bg);
+}
+.sub-loop-label {
+  position: absolute;
+  top: -11px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-2);
+  font-family: var(--font-m);
+  font-size: 10px;
+  color: var(--text-3);
+  padding: 0 10px;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+}
+.sub-loop-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+.fn-small {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 0.9rem 1.1rem;
+  text-align: center;
+  min-width: 140px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s;
+}
+.fn-small.visible { opacity: 1; transform: translateY(0); }
+.fn-small:hover { border-color: var(--accent-md); }
+.fn-small .fn-title { font-size: 12px; }
+.fn-small .fn-sub { font-size: 10px; }
+.flow-arrow-h {
+  height: 1px;
+  width: 32px;
+  background: var(--border-md);
+  flex-shrink: 0;
+  position: relative;
+}
+.flow-arrow-h::after {
+  content: '';
+  position: absolute;
+  right: -1px; top: 50%;
+  transform: translateY(-50%);
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 6px solid var(--border-md);
+}
+.flow-caption {
+  font-family: var(--font-m);
+  font-size: 11px;
+  color: var(--text-3);
+  text-align: center;
+  margin-top: 2rem;
+  letter-spacing: 0.05em;
+}
+.flow-caption span { color: var(--accent); }
+
+/* ── SKILLS ── */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.skill-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 1.4rem 1.6rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.skill-card:hover {
+  border-color: var(--border-md);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+}
+.sk-cat {
+  font-family: var(--font-m);
+  font-size: 10px;
+  color: var(--text-3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.sk-name {
+  font-family: var(--font-m);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+.skill-card p { font-size: 0.84rem; color: var(--text-2); line-height: 1.65; }
+.auto-badge {
+  display: inline-block;
+  font-family: var(--font-m);
+  font-size: 9px;
+  color: var(--yellow);
+  background: var(--yellow-lt);
+  border: 1px solid #E8D08A;
+  padding: 2px 8px;
+  border-radius: 100px;
+  margin-top: 0.75rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+/* ── WHY LIST ── */
+.why-list {
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.why-item {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+.why-item:last-child { border-bottom: none; }
+.why-item:hover { background: var(--bg-2); }
+.why-n {
+  font-family: var(--font-d);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--border-md);
+  letter-spacing: -0.04em;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 1.8rem;
+}
+.why-body { padding: 1.6rem 2rem 1.6rem 0; }
+.why-body p { font-size: 0.9rem; color: var(--text-2); line-height: 1.75; margin-top: 0.35rem; }
+
+/* ── INSTALL ── */
+.install-tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md) var(--r-md) 0 0;
+  padding: 5px;
+  flex-wrap: wrap;
+}
+.tab-btn {
+  font-family: var(--font-d);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text-2);
+  padding: 6px 14px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: background 0.15s, color 0.15s;
+  letter-spacing: -0.01em;
+}
+.tab-btn.active {
+  background: var(--bg);
+  color: var(--text-1);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.tab-btn:hover:not(.active) { background: var(--bg-4); color: var(--text-1); }
+.tab-pane {
+  display: none;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--r-md) var(--r-md);
+  padding: 2rem;
+}
+.tab-pane.active { display: block; }
+.i-step {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.4rem;
+}
+.i-step:last-child { margin-bottom: 0; }
+.i-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--accent-lt);
+  border: 1px solid var(--accent-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-m);
+  font-size: 10px;
+  color: var(--accent);
+  flex-shrink: 0;
+  font-weight: 500;
+  margin-top: 2px;
+}
+.i-body p { font-size: 0.88rem; color: var(--text-2); line-height: 1.65; margin-bottom: 0.5rem; }
+pre {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 0.9rem 1.1rem;
+  font-family: var(--font-m);
+  font-size: 12.5px;
+  color: var(--accent-dark);
+  overflow-x: auto;
+  position: relative;
+  line-height: 1.6;
+}
+.copy-btn {
+  position: absolute;
+  top: 8px; right: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-3);
+  font-family: var(--font-m);
+  font-size: 10px;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  letter-spacing: 0.05em;
+}
+.copy-btn:hover { color: var(--text-1); border-color: var(--border-md); }
+.copy-btn.copied { color: var(--green); border-color: #B8DCCA; }
+.ic { font-family: var(--font-m); font-size: 12px; color: var(--accent-dark); background: var(--accent-lt); border: 1px solid var(--accent-md); padding: 1px 6px; border-radius: 4px; }
+
+/* ── USAGE ── */
+.usage-steps {
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.u-step {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 2rem;
+  align-items: start;
+  padding: 2rem 2.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  transition: background 0.2s;
+}
+.u-step:last-child { border-bottom: none; }
+.u-step:hover { background: var(--bg-2); }
+.u-step-n {
+  font-family: var(--font-d);
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--border);
+  letter-spacing: -0.05em;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+.u-phase {
+  font-family: var(--font-m);
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.u-right p { font-size: 0.9rem; color: var(--text-2); line-height: 1.75; margin-top: 0.35rem; }
+.u-right ul {
+  margin-top: 0.75rem;
+  padding-left: 1.1rem;
+  font-size: 0.86rem;
+  color: var(--text-2);
+  line-height: 1.85;
+}
+.gate-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-m);
+  font-size: 10px;
+  color: var(--yellow);
+  background: var(--yellow-lt);
+  border: 1px solid #E8D08A;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-top: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+/* ── COMPARE TABLE ── */
+.cmp-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  font-size: 0.86rem;
+}
+.cmp-table th {
+  font-family: var(--font-d);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-2);
+  padding: 1rem 1.2rem;
+  text-align: left;
+  background: var(--bg-3);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.cmp-table th:first-child { color: var(--text-1); }
+.cmp-table td {
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-2);
+  background: var(--bg);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.cmp-table tr:last-child td { border-bottom: none; }
+.cmp-table td:first-child {
+  font-family: var(--font-d);
+  font-weight: 500;
+  color: var(--text-1);
+  background: var(--bg-2);
+  white-space: nowrap;
+}
+.ck { color: var(--green); font-weight: 600; }
+.pt { color: var(--yellow); }
+.nn { color: var(--border-md); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bg-2);
+  border-top: 1px solid var(--border);
+  padding: 3.5rem 2rem;
+  text-align: center;
+}
+.footer-logo {
+  font-family: var(--font-d);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-1);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 0.8rem;
+  letter-spacing: -0.02em;
+}
+.footer-logo .dot { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; }
+footer p { font-size: 13px; color: var(--text-3); line-height: 1.8; }
+footer a { color: var(--text-2); text-decoration: none; border-bottom: 1px solid var(--border-md); transition: color 0.2s, border-color 0.2s; }
+footer a:hover { color: var(--accent); border-color: var(--accent-md); }
+
+/* ── REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .what-grid { grid-template-columns: 1fr; }
+  .prob-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .u-step { grid-template-columns: 1fr; gap: 0.5rem; }
+  .nav-links { display: none; }
+  .hero-stats { flex-direction: column; border-radius: var(--r-lg); }
+  .stat { border-right: none; border-bottom: 1px solid var(--border); }
+  .stat:last-child { border-bottom: none; }
+}
+@media (max-width: 480px) {
+  .skills-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .flow-node, .fn-small { transition: none; opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#"><div class="dot"></div>usesuperpower</a>
+  <ul class="nav-links">
+    <li><a href="#what">What it is</a></li>
+    <li><a href="#problems">Problems</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#install">Install</a></li>
+    <li><a href="#usage" class="nav-cta">Get started</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow"><div class="eyebrow-dot"></div>AI Development Methodology</div>
+  <h1>Your AI agent,<br><em>supercharged</em></h1>
+  <p class="hero-sub">A complete development methodology that runs itself — from idea to reviewed, tested, merged code — without you stepping in between.</p>
+  <div class="hero-actions">
+    <a href="#install" class="btn-primary">Install in 30 seconds</a>
+    <a href="#how" class="btn-secondary">See how it works</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">13</span>
+      <span class="stat-label">Auto-triggered skills</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">11</span>
+      <span class="stat-label">Supported agents</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">0</span>
+      <span class="stat-label">Commands to memorize</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">Hours</span>
+      <span class="stat-label">Autonomous runtime</span>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT IS IT -->
+<div style="padding: 6rem 0;" id="what">
+  <div class="container">
+    <div class="sec-label reveal">What is usesuperpower</div>
+    <h2 class="reveal">Not a plugin. A <em>methodology</em>.</h2>
+    <p class="sec-intro reveal">Most AI coding tools make autocomplete smarter. usesuperpower gives your agent a complete engineering process — the same discipline senior engineers bring to production code, running automatically from first message to merged PR.</p>
+    <div class="what-grid reveal">
+      <div class="what-cell">
+        <div class="cell-icon">🧠</div>
+        <h3>Thinks before it codes</h3>
+        <p>Before writing a single line, it interviews you about what you're actually building. Proposes 3 approaches with trade-offs. Shows you the design in sections. Waits for your sign-off. You never get code for the wrong thing.</p>
+      </div>
+      <div class="what-cell">
+        <div class="cell-icon">🤖</div>
+        <h3>Executes autonomously</h3>
+        <p>Once you approve the plan, it runs without stopping. A fresh subagent per task. A reviewer subagent after each. A fix subagent for anything that fails. It can work for hours without asking "should I continue?"</p>
+      </div>
+      <div class="what-cell">
+        <div class="cell-icon">🧪</div>
+        <h3>Tests first, always</h3>
+        <p>The TDD Iron Law is enforced at the skill level: no production code without a failing test first. Write code before the test? Delete it. Start over. This isn't a suggestion — it cannot be rationalized away.</p>
+      </div>
+      <div class="what-cell">
+        <div class="cell-icon">🔍</div>
+        <h3>Reviews every task</h3>
+        <p>After each task, a dedicated reviewer subagent — not the one that built it — checks spec compliance and code quality. Critical issues get fixed before the next task starts. Problems can't compound.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- PROBLEMS -->
+<div style="padding: 6rem 0; background: var(--bg-2);" id="problems">
+  <div class="container">
+    <div class="sec-label reveal">Problems it solves</div>
+    <h2 class="reveal">The 4 ways AI coding <em>breaks down</em></h2>
+    <p class="sec-intro reveal">Every AI coding session fails for the same four reasons. usesuperpower is built specifically to prevent each one.</p>
+    <div class="prob-grid reveal">
+      <div class="prob-card">
+        <div class="prob-tag">Problem 01</div>
+        <h3>Agent built the wrong thing</h3>
+        <p>You describe something loosely, the agent fills in assumptions, and two hours later you have working code for a feature you didn't want. By then switching costs are real and you rationalize the wrong thing into "good enough."</p>
+        <div class="fix-tag">✓ Fixed by brainstorming — mandatory design gate before any code</div>
+      </div>
+      <div class="prob-card">
+        <div class="prob-tag">Problem 02</div>
+        <h3>Context pollution across tasks</h3>
+        <p>As a session grows, earlier mistakes and wrong assumptions quietly become facts. Later tasks inherit bad context. The agent drifts from the plan in ways that are hard to trace or undo.</p>
+        <div class="fix-tag">✓ Fixed by fresh subagent per task — zero inherited context</div>
+      </div>
+      <div class="prob-card">
+        <div class="prob-tag">Problem 03</div>
+        <h3>Code that was never tested</h3>
+        <p>Tests get written after the implementation, if at all. They end up testing the shape of the code rather than its behavior. Refactors break everything because the tests were coupled to implementation details.</p>
+        <div class="fix-tag">✓ Fixed by TDD Iron Law — failing test required before any code</div>
+      </div>
+      <div class="prob-card">
+        <div class="prob-tag">Problem 04</div>
+        <h3>Guessing at bugs instead of diagnosing</h3>
+        <p>When something breaks, the agent tries random fixes. Each guess might mask the real issue. Quick patches hide root causes and create new failure modes in the next session.</p>
+        <div class="fix-tag">✓ Fixed by systematic-debugging — root cause required before any fix</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FLOW CHART -->
+<div class="flow-wrap" id="how">
+  <div class="container">
+    <div class="sec-label reveal">How it works</div>
+    <h2 class="reveal">One idea in. <em>Reviewed code</em> out.</h2>
+    <p class="sec-intro reveal">You describe what you want. You review the design. You say go. usesuperpower handles everything in between — automatically, in order, without stopping to ask permission.</p>
+
+    <div class="flow-chart">
+      <div class="flow-node you" id="fn1">
+        <div class="fn-phase">You</div>
+        <div class="fn-title">Describe your idea</div>
+        <div class="fn-sub">Natural language — as vague as needed</div>
+      </div>
+      <div class="flow-arrow-v"></div>
+      <div class="flow-node" id="fn2">
+        <div class="fn-phase">Auto · brainstorming</div>
+        <div class="fn-title">Design interview</div>
+        <div class="fn-sub">One question at a time → 3 approaches → design doc</div>
+      </div>
+      <div class="flow-arrow-v"></div>
+      <div class="flow-node you" id="fn3">
+        <div class="fn-phase">You</div>
+        <div class="fn-title">Approve the design</div>
+        <div class="fn-sub">Review sections, request changes, sign off</div>
+      </div>
+      <div class="flow-arrow-v"></div>
+      <div class="flow-node" id="fn4">
+        <div class="fn-phase">Auto · git worktrees</div>
+        <div class="fn-title">Isolated workspace</div>
+        <div class="fn-sub">Fresh branch, clean baseline — main untouched</div>
+      </div>
+      <div class="flow-arrow-v"></div>
+      <div class="flow-node" id="fn5">
+        <div class="fn-phase">Auto · writing-plans</div>
+        <div class="fn-title">Detailed plan</div>
+        <div class="fn-sub">2–5 min tasks, exact file paths, TDD steps built in</div>
+      </div>
+      <div class="flow-arrow-v"></div>
+
+      <div class="sub-loop" id="fn6">
+        <div class="sub-loop-label">Repeats per task · fully autonomous</div>
+        <div class="sub-loop-row">
+          <div class="fn-small" id="fns1">
+            <div class="fn-title">Implement</div>
+            <div class="fn-sub">Fresh subagent, test-first</div>
+          </div>
+          <div class="flow-arrow-h"></div>
+          <div class="fn-small" id="fns2">
+            <div class="fn-title">Review</div>
+            <div class="fn-sub">Spec + code quality</div>
+          </div>
+          <div class="flow-arrow-h"></div>
+          <div class="fn-small" id="fns3">
+            <div class="fn-title">Fix if needed</div>
+            <div class="fn-sub">Fix subagent dispatched</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-arrow-v"></div>
+      <div class="flow-node" id="fn7">
+        <div class="fn-phase">Auto · code review</div>
+        <div class="fn-title">Final branch review</div>
+        <div class="fn-sub">Dedicated reviewer agent checks whole branch</div>
+      </div>
+      <div class="flow-arrow-v"></div>
+      <div class="flow-node you" id="fn8">
+        <div class="fn-phase">You</div>
+        <div class="fn-title">Merge · PR · Keep · Discard</div>
+        <div class="fn-sub">Your decision — clean options presented</div>
+      </div>
+      <div class="flow-caption">
+        You participate at <span>design</span> and <span>merge</span>. usesuperpower handles everything in between.
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- SKILLS -->
+<div style="padding: 6rem 0;" id="skills">
+  <div class="container">
+    <div class="sec-label reveal">Skills library</div>
+    <h2 class="reveal">13 skills. All <em>automatic</em>.</h2>
+    <p class="sec-intro reveal">Skills activate based on what you're doing — not commands you type. No memorization required.</p>
+    <div class="skills-grid reveal">
+      <div class="skill-card">
+        <div class="sk-cat">Meta</div>
+        <div class="sk-name">using-usesuperpower</div>
+        <p>The bootstrap skill. Loads at session start. Routes every incoming task to the right skill. Enforces that skills are always checked before any response.</p>
+        <span class="auto-badge">Auto · session start</span>
+      </div>
+      <div class="skill-card">
+        <div class="sk-cat">Design</div>
+        <div class="sk-name">brainstorming</div>
+        <p>Socratic design refinement. One question at a time. Proposes 3 approaches with trade-offs. Writes and commits a design doc. Hard gate — zero code until you sign off.</p>
+        <span class="auto-badge">Auto · before any code</span>
+      </div>
+      <div class="skill-card">
+        <div class="sk-cat">Setup</div>
+        <div class="sk-name">using-git-worktrees</div>
+        <p>Creates an isolated branch and worktree so your main branch is never touched. Verifies a clean test baseline before implementation begins.</p>
+        <span class="auto-badge">Auto · after design approval</span>
+      </div>
+      <div class="skill-card">
+        <div class="sk-cat">Planning</div>
+        <div class="sk-name">writing-plans</div>
+        <p>Breaks the design into 2–5 minute bite-sized tasks. Exact file paths. Exact code steps. TDD steps built into every task. Saved to docs/usesuperpower/plans/.</p>
+        <span class="auto-badge">Auto · after setup</span>
+      </div>
+      <div class="skill-card">
+        <div class="sk-cat">Execution</div>
+        <div class="sk-name">subagent-driven-development</div>
+        <p>The engine. Fresh subagent per task, two-stage review after each, fix subagent for critical findings, final whole-branch review at end. Continuous — no check-ins between tasks.</p>
+        <span class="auto-badge">Auto · plan approved</span>
+      </div>
+      <div class="skill-card">
+        <div class="sk-cat">Testing</div>
+        <div class="sk-name">test-driven-development</div>
+        <p>Iron Law: no production code without a failing test first. Write code before the test? Delete it. No exceptions, no rationalization. Red-green-refactor, every time.</p>
+        <span class="auto-badge">Auto · during implementation</span>
+      </div>
+      <div class="skill-card">
+        <div class="sk-cat">Review</div>
+        <div class="sk-name">requesting-code-review</div>
+        <p>Dispatches a dedicated reviewer subagent with precisely crafted context — not your session history. Mandatory after each task and before any merge.</p>
+        <span class="auto-badge">Auto · after each task</span>
+      </div>
+      <div class="skill-card">
+        <div class="sk-cat">Completion</div>
+        <div class="sk-name">finishing-a-development-branch</div>
+        <p>Verifies all tests pass. Detects workspace state. Presents 4 clean options: merge locally, open PR, keep branch, or discard. Never merges unilaterally.</p>
+        <span class="auto-badge">Auto · all tasks done</span>
+      </div>
+      <div class="skill-card">
+        <div class="sk-cat">Debugging</div>
+        <div class="sk-name">systematic-debugging</div>
+        <p>Iron Law: no fixes without root cause investigation first. 4-phase process: reproduce → investigate → fix → verify. Especially enforced when you're in a hurry.</p>
+        <span class="auto-badge">Auto · any bug or failure</span>
+      </div>
+      <div class="skill-card">
+        <div class="sk-cat">Verification</div>
+        <div class="sk-name">verification-before-completion</div>
+        <p>After any fix — confirms it's actually fixed, not masked. Prevents patches that hide root causes and create new failure modes in the next session.</p>
+        <span class="auto-badge">Auto · after any fix</span>
+      </div>
+      <div class="skill-card">
+        <div class="sk-cat">Parallel</div>
+        <div class="sk-name">dispatching-parallel-agents</div>
+        <p>When 2+ independent failures exist, dispatches one fresh agent per domain simultaneously. Problems are investigated concurrently, not one at a time.</p>
+        <span class="auto-badge">Auto · multiple independent failures</span>
+      </div>
+      <div class="skill-card">
+        <div class="sk-cat">Fallback</div>
+        <div class="sk-name">executing-plans</div>
+        <p>Sequential plan execution with human checkpoints. Used when subagents aren't available on your platform. Same quality gates, you step in between tasks.</p>
+      </div>
+      <div class="skill-card">
+        <div class="sk-cat">Extend</div>
+        <div class="sk-name">writing-skills</div>
+        <p>Create your own skills using TDD applied to documentation. Write a pressure scenario, watch an agent fail, write the skill, verify compliance, refactor to close loopholes.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- WHY -->
+<div style="padding: 6rem 0; background: var(--bg-2);" id="why">
+  <div class="container">
+    <div class="sec-label reveal">Why use usesuperpower</div>
+    <h2 class="reveal">Built around how AI coding <em>actually fails</em></h2>
+    <p class="sec-intro reveal">Every design decision traces back to a real failure mode — not an engineering ideal.</p>
+    <div class="why-list reveal">
+      <div class="why-item">
+        <div class="why-n">1</div>
+        <div class="why-body">
+          <h3>You stay in control at every gate that matters</h3>
+          <p>Design approval and merge decision are yours. Everything between those two moments is autonomous. usesuperpower never surprises you with a merge or skips a step you haven't seen. Your CLAUDE.md or AGENTS.md always wins over any skill — user instructions are highest priority, always.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-n">2</div>
+        <div class="why-body">
+          <h3>Fresh context prevents the spiral</h3>
+          <p>Every task starts with a clean agent that receives only what it needs for that task. The orchestrator coordinates. Subagents execute. Reviewers review. No agent knows more than its job requires — so accumulated session assumptions can't poison later work. No other skill system does this.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-n">3</div>
+        <div class="why-body">
+          <h3>Hard gates are actually hard</h3>
+          <p>The brainstorming gate is tagged <span class="ic">HARD-GATE</span> in the skill file — not "please try to do this first." The TDD Iron Law says delete code written before its test — not "add tests when you can." These aren't suggestions with rationalization escape hatches. They're enforced in the process.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-n">4</div>
+        <div class="why-body">
+          <h3>Works across 11 agents — nothing to learn</h3>
+          <p>Claude Code, Codex App, Codex CLI, Cursor, Gemini CLI, Copilot CLI, Factory Droid, OpenCode, Kimi Code, Antigravity, and Pi. Skills are plain Markdown — they work with any agent that accepts instruction files. No new interface to learn. It's just your agent, with a methodology.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-n">5</div>
+        <div class="why-body">
+          <h3>You can build your own skills on top</h3>
+          <p>The <span class="ic">writing-skills</span> skill teaches you to add your own engineering patterns to the system using the same TDD approach — write a pressure scenario, watch an agent fail, write the skill, verify it works. Your team's practices become part of the methodology.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- INSTALL -->
+<div style="padding: 6rem 0;" id="install">
+  <div class="container">
+    <div class="sec-label reveal">Installation</div>
+    <h2 class="reveal">Up in <em>30 seconds</em></h2>
+    <p class="sec-intro reveal">Pick your agent. One or two commands. usesuperpower activates automatically from your next session.</p>
+
+    <div class="reveal">
+      <div class="install-tabs">
+        <button class="tab-btn active" onclick="switchTab(event,'claude')">Claude Code</button>
+        <button class="tab-btn" onclick="switchTab(event,'cursor')">Cursor</button>
+        <button class="tab-btn" onclick="switchTab(event,'gemini')">Gemini CLI</button>
+        <button class="tab-btn" onclick="switchTab(event,'codex')">Codex CLI</button>
+        <button class="tab-btn" onclick="switchTab(event,'antigravity')">Antigravity</button>
+        <button class="tab-btn" onclick="switchTab(event,'opencode')">OpenCode</button>
+      </div>
+
+      <div id="tab-claude" class="tab-pane active">
+        <div class="i-step">
+          <div class="i-num">1</div>
+          <div class="i-body">
+            <p>Install from Anthropic's official marketplace — the simplest path:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">copy</button>/plugin install usesuperpower@claude-plugins-official</pre>
+          </div>
+        </div>
+        <div class="i-step">
+          <div class="i-num">2</div>
+          <div class="i-body">
+            <p>Or register the usesuperpower marketplace and install from there:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">copy</button>/plugin marketplace add mdliad-se/usesuperpower-marketplace
+/plugin install usesuperpower@usesuperpower-marketplace</pre>
+          </div>
+        </div>
+        <div class="i-step">
+          <div class="i-num">3</div>
+          <div class="i-body">
+            <p>Done. Start a new session and describe what you want to build. usesuperpower takes over from there.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-cursor" class="tab-pane">
+        <div class="i-step">
+          <div class="i-num">1</div>
+          <div class="i-body">
+            <p>In Cursor Agent chat, install directly from the marketplace:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">copy</button>/add-plugin usesuperpower</pre>
+          </div>
+        </div>
+        <div class="i-step">
+          <div class="i-num">2</div>
+          <div class="i-body">
+            <p>Or search for "usesuperpower" in the Cursor plugin marketplace and install from there.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-gemini" class="tab-pane">
+        <div class="i-step">
+          <div class="i-num">1</div>
+          <div class="i-body">
+            <p>Install as a Gemini CLI extension:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">copy</button>gemini extensions install https://github.com/mdliad-se/usesuperpower</pre>
+          </div>
+        </div>
+        <div class="i-step">
+          <div class="i-num">2</div>
+          <div class="i-body">
+            <p>To update later:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">copy</button>gemini extensions update usesuperpower</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-codex" class="tab-pane">
+        <div class="i-step">
+          <div class="i-num">1</div>
+          <div class="i-body">
+            <p>Open the plugin search interface:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">copy</button>/plugins</pre>
+          </div>
+        </div>
+        <div class="i-step">
+          <div class="i-num">2</div>
+          <div class="i-body">
+            <p>Search for usesuperpower and select Install Plugin:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">copy</button>usesuperpower</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-antigravity" class="tab-pane">
+        <div class="i-step">
+          <div class="i-num">1</div>
+          <div class="i-body">
+            <p>Install directly from the repository:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">copy</button>agy plugin install https://github.com/mdliad-se/usesuperpower</pre>
+          </div>
+        </div>
+        <div class="i-step">
+          <div class="i-num">2</div>
+          <div class="i-body">
+            <p>Antigravity runs the session-start hook automatically. Reinstall with the same command to update.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-opencode" class="tab-pane">
+        <div class="i-step">
+          <div class="i-num">1</div>
+          <div class="i-body">
+            <p>Tell OpenCode to fetch and follow the install instructions:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">copy</button>Fetch and follow instructions from https://raw.githubusercontent.com/mdliad-se/usesuperpower/refs/heads/main/.opencode/INSTALL.md</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:1.5rem; font-size:0.82rem; color:var(--text-3);" class="reveal">
+      To disable optional telemetry (version ping only — no project data is sent):
+      <span class="ic">export USESUPERPOWER_DISABLE_TELEMETRY=true</span>
+    </p>
+  </div>
+</div>
+
+<hr>
+
+<!-- USAGE -->
+<div style="padding: 6rem 0; background: var(--bg-2);" id="usage">
+  <div class="container">
+    <div class="sec-label reveal">Usage guide</div>
+    <h2 class="reveal">How to use it, <em>simply</em></h2>
+    <p class="sec-intro reveal">There are no commands to memorize. usesuperpower activates automatically. Your job is to describe, review, and decide.</p>
+    <div class="usage-steps reveal">
+      <div class="u-step">
+        <div>
+          <div class="u-step-n">01</div>
+          <div class="u-phase">Start</div>
+        </div>
+        <div class="u-right">
+          <h3>Describe what you want to build — in plain language</h3>
+          <p>Just talk naturally. No command prefix. No special format. usesuperpower detects that you're about to build something and activates <span class="ic">brainstorming</span> before anything else happens.</p>
+          <ul>
+            <li>Be as vague or specific as you want — it will ask for what it needs</li>
+            <li>If your project is too large, it helps you decompose it into sub-projects first</li>
+            <li>It reads your existing files and docs before asking anything</li>
+          </ul>
+          <div class="gate-pill">⊘ No code is written at this stage</div>
+        </div>
+      </div>
+      <div class="u-step">
+        <div>
+          <div class="u-step-n">02</div>
+          <div class="u-phase">Design</div>
+        </div>
+        <div class="u-right">
+          <h3>Review the design and give your approval</h3>
+          <p>usesuperpower presents the design in sections, scaled to complexity. It proposes 3 approaches with trade-offs and recommends one. Review, request changes, then approve.</p>
+          <ul>
+            <li>Design doc saved to <span class="ic">docs/usesuperpower/specs/</span></li>
+            <li>It self-reviews for contradictions before showing you</li>
+            <li>You can request as many revisions as you need</li>
+          </ul>
+          <div class="gate-pill">⊘ Hard gate — implementation cannot start without your sign-off</div>
+        </div>
+      </div>
+      <div class="u-step">
+        <div>
+          <div class="u-step-n">03</div>
+          <div class="u-phase">Execute</div>
+        </div>
+        <div class="u-right">
+          <h3>Say go — then step away</h3>
+          <p>Once you approve, usesuperpower creates an isolated worktree, writes a detailed plan, and begins autonomous execution. A fresh subagent per task, a reviewer after each, a fix agent if anything fails. It runs until all tasks are done.</p>
+          <ul>
+            <li>Plan saved to <span class="ic">docs/usesuperpower/plans/</span></li>
+            <li>Each task: implement → test → review → fix if needed → commit</li>
+            <li>Only stops if it hits a genuine blocker it cannot resolve</li>
+          </ul>
+          <div class="gate-pill">⊘ This phase can run for hours without your input</div>
+        </div>
+      </div>
+      <div class="u-step">
+        <div>
+          <div class="u-step-n">04</div>
+          <div class="u-phase">Ship</div>
+        </div>
+        <div class="u-right">
+          <h3>Choose how to handle the finished branch</h3>
+          <p>When all tasks complete and the final review passes, usesuperpower verifies the full test suite and presents four clean options:</p>
+          <ul>
+            <li><strong>Merge locally</strong> — pull it into your main branch right now</li>
+            <li><strong>Open a PR</strong> — push the branch and create a pull request</li>
+            <li><strong>Keep the branch</strong> — leave it, you'll handle it later</li>
+            <li><strong>Discard</strong> — you explored something, you don't need the code</li>
+          </ul>
+          <div class="gate-pill">⊘ Your decision — usesuperpower never merges unilaterally</div>
+        </div>
+      </div>
+      <div class="u-step">
+        <div>
+          <div class="u-step-n">05</div>
+          <div class="u-phase">Debug</div>
+        </div>
+        <div class="u-right">
+          <h3>Report a bug — it diagnoses before it fixes</h3>
+          <p>If something isn't working, just describe it. usesuperpower activates <span class="ic">systematic-debugging</span> and works through a 4-phase root cause process before proposing any fix. You won't get a random patch that masks the real issue.</p>
+          <ul>
+            <li>Reproduce → localize → reduce → fix → guard against recurrence</li>
+            <li>Every fix gets a regression test before the issue is closed</li>
+            <li>If it can't reproduce the bug, it asks for more context — never guesses</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- COMPARE -->
+<div style="padding: 6rem 0;">
+  <div class="container">
+    <div class="sec-label reveal">How it compares</div>
+    <h2 class="reveal">usesuperpower vs other <em>skill frameworks</em></h2>
+    <p class="sec-intro reveal">All four major AI skill repos solve overlapping problems. Here's an honest side-by-side.</p>
+    <div class="reveal" style="overflow-x:auto;">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>usesuperpower</th>
+            <th>gstack</th>
+            <th>addyosmani</th>
+            <th>mattpocock</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Automatic skill triggers</td>
+            <td><span class="ck">✓</span> Fully automatic</td>
+            <td><span class="nn">—</span> Manual commands</td>
+            <td><span class="pt">~</span> Partial</td>
+            <td><span class="nn">—</span> Manual commands</td>
+          </tr>
+          <tr>
+            <td>Subagent-per-task execution</td>
+            <td><span class="ck">✓</span> Core architecture</td>
+            <td><span class="nn">—</span> Single session</td>
+            <td><span class="nn">—</span> Single session</td>
+            <td><span class="nn">—</span> Single session</td>
+          </tr>
+          <tr>
+            <td>Design gate before code</td>
+            <td><span class="ck">✓</span> Hard gate enforced</td>
+            <td><span class="ck">✓</span> /office-hours</td>
+            <td><span class="ck">✓</span> interview-me</td>
+            <td><span class="ck">✓</span> /grill-me</td>
+          </tr>
+          <tr>
+            <td>TDD enforced</td>
+            <td><span class="ck">✓</span> Iron Law — delete first</td>
+            <td><span class="pt">~</span> Recommended</td>
+            <td><span class="ck">✓</span> Enforced</td>
+            <td><span class="ck">✓</span> Enforced</td>
+          </tr>
+          <tr>
+            <td>Review after each task</td>
+            <td><span class="ck">✓</span> Fresh reviewer subagent</td>
+            <td><span class="pt">~</span> /review at end</td>
+            <td><span class="pt">~</span> At review phase</td>
+            <td><span class="nn">—</span></td>
+          </tr>
+          <tr>
+            <td>Autonomous multi-hour runs</td>
+            <td><span class="ck">✓</span> No check-ins</td>
+            <td><span class="nn">—</span></td>
+            <td><span class="pt">~</span> /build auto</td>
+            <td><span class="nn">—</span></td>
+          </tr>
+          <tr>
+            <td>Domain language / glossary</td>
+            <td><span class="nn">—</span></td>
+            <td><span class="nn">—</span></td>
+            <td><span class="nn">—</span></td>
+            <td><span class="ck">✓</span> CONTEXT.md</td>
+          </tr>
+          <tr>
+            <td>Security audit built in</td>
+            <td><span class="nn">—</span></td>
+            <td><span class="ck">✓</span> /cso OWASP+STRIDE</td>
+            <td><span class="ck">✓</span> security skill</td>
+            <td><span class="nn">—</span></td>
+          </tr>
+          <tr>
+            <td>Agents supported</td>
+            <td>11 agents</td>
+            <td>8 agents</td>
+            <td>7 agents</td>
+            <td>Any agent</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo"><div class="dot"></div>usesuperpower</div>
+  <p>
+    Built and documented by <strong>Liad</strong> · B-Online Company<br>
+    Based on the open-source work of <a href="https://github.com/mdliad-se/usesuperpower" target="_blank">Jesse Vincent & Prime Radiant</a>
+  </p>
+  <p style="margin-top:0.8rem;">
+    <a href="https://github.com/mdliad-se/usesuperpower" target="_blank">GitHub</a> &nbsp;·&nbsp;
+    <a href="https://discord.gg/35wsABTejz" target="_blank">Discord</a> &nbsp;·&nbsp;
+    <a href="https://blog.fsck.com/2025/10/09/superpowers/" target="_blank">Announcement</a> &nbsp;·&nbsp;
+    MIT License
+  </p>
+</footer>
+
+<script>
+function switchTab(e, name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+function copyCode(btn) {
+  const pre = btn.parentElement;
+  const text = pre.textContent.replace(/^(copy|copied)\s*/,'').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+const nodeObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const nodes = e.target.querySelectorAll('.flow-node, .fn-small');
+      nodes.forEach((n, i) => setTimeout(() => n.classList.add('visible'), i * 100));
+    }
+  });
+}, { threshold: 0.15 });
+const fc = document.querySelector('.flow-chart');
+if (fc) nodeObs.observe(fc);
+</script>
+</body>
+</html>
